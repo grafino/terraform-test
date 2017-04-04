@@ -4,12 +4,16 @@ provider "digitalocean" {
   # OR
   # Set the variable value in *.tfvars file
   # variable "do_token" {}
-  # token = "${var.do_token}"
+  token = "${var.do_token}"
 }
 
-resource "digitalocean_tag" "grafino" { name = "grafino" }
-resource "digitalocean_tag" "teste" { name = "teste" }
+resource "digitalocean_tag" "grafino" {
+   name = "grafino"
+}
 
+resource "digitalocean_tag" "teste" {
+   name = "teste"
+}
 
 resource "digitalocean_droplet" "grafino_tf" {
   # Obtain your ssh_key id number via your account. See Document https://developers.digitalocean.com/documentation/v2/#list-all-keys
@@ -20,9 +24,12 @@ resource "digitalocean_droplet" "grafino_tf" {
   private_networking = false
   backups            = false
   ipv6               = false
-  name               = "grafino_tf"
+  name               = "grafino.test.local"
 
-  tags = ["${digitalocean_tag.grafino.id}", "${digitalocean_tag.teste.id}"]
+  tags = [
+    "${digitalocean_tag.grafino.id}",
+    "${digitalocean_tag.teste.id}"
+  ]
 
  provisioner "remote-exec" {
                             inline = [
