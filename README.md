@@ -8,9 +8,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+* Terraform installed
+* Token / Secret key from provider
 
 ```
-terraform plan
-terraform apply
+terraform plan -var-file=../credentials.tfvars
+terraform apply -var-file=../credentials.tfvars
+terraform destroy -var-file=../credentials.tfvars
 ```
