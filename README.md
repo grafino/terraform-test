@@ -1,10 +1,12 @@
-# Terraform to provision in digitalocean
+# Terraform to provision in cloud providers
 
-- First test
+v1.0 - Included terraform configuration examples for digitalocean.
+v1.1 - Included terraform configurations examples for google cloud.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Every cloud provider has different API and features, and so you have to read on instructions according to your needs.
+This is for learning purposes only and for templating a simples cloud infrastructure Terraform code.
 
 ### Prerequisites
 
@@ -12,7 +14,7 @@ These instructions will get you a copy of the project up and running on your loc
 * Token / Secret key from provider
 
 ```
-terraform plan -var-file=../credentials.tfvars
-terraform apply -var-file=../credentials.tfvars
-terraform destroy -var-file=../credentials.tfvars
+terraform plan
+terraform apply
+terraform destroy
 ```
