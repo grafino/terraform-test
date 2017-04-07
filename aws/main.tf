@@ -86,4 +86,9 @@ resource "aws_instance" "grafino_instance" {
             #!/bin/bash
             echo "Hello, World" > hello.txt
             EOF
+
+
+  provisioner "local-exec" {
+  command = "echo ${aws_instance.grafino_instance.public_ip} > ip_address.txt"
+}
 }
