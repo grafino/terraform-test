@@ -81,4 +81,3 @@ resource "digitalocean_droplet" "grafino_tf" {
   name   = "grafino_tf"
   value  = "${digitalocean_droplet.grafino_tf.ipv4_address}"
 }*/
-
