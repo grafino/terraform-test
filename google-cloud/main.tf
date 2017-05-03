@@ -18,13 +18,38 @@ resource "google_compute_subnetwork" "grafino-sub" {
   region        = "${var.region}"
 }
 
+# Security Grups to alow ssh
+resource "google_compute_firewall" "grafino-rule-ssh" {
+  name    = "grafino-rule-ssh"
+  network = "grafino-network"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+}
+
+# Security Grups to alow ping
+resource "google_compute_firewall" "grafino-rule-ping" {
+  name    = "grafino-rule-ping"
+  network = "grafino-network"
+
+  allow {
+    protocol = "icmp"
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+}
+
 # Creates the instance
 resource "google_compute_instance" "grafino-instance" {
   count        = 1
   name         = "grafino-server-${count.index + 1}"
   machine_type = "f1-micro"
   zone         = "${var.region_zone}"
-  tags         = ["grafino", "terraform"]
+  tags         = ["grafino", "terraform", "instance"]
 
   disk {
     image = "centos-7-v20170327"
@@ -41,16 +66,10 @@ resource "google_compute_instance" "grafino-instance" {
   }
 }
 
-# Security Grups
-resource "google_compute_firewall" "grafino-nsg" {
-  name    = "grafino-test-firewall"
-  network = "grafino-network"
 
-  allow {
-    protocol = "tcp"
-    ports    = ["22"]
-  }
-
-  source_ranges = ["0.0.0.0/0"]
-  target_tags   = ["grafino-test"]
-}
+# # LATER define default connection for remote provisioners
+# connection {
+# type = "ssh"
+# user = "${var.gce_ssh_user}"
+# private_key = "${file(var.gce_ssh_private_key_file)}"
+# }
