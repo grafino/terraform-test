@@ -4,23 +4,36 @@ provider "google" {
   region      = "${var.region}"
 }
 
-/*resource "google_compute_address" "www" {
-    name = "Static Public IP Address"
-}*/
+# Creates a custom network, similar to VPC on AWS
+resource "google_compute_network" "grafino-network" {
+  name                    = "grafino-network"
+  auto_create_subnetworks = "false"
+}
 
-resource "google_compute_instance" "test" {
-  count        = 1                        // Adjust as desired
-  name         = "test${count.index + 1}" // yields "test1", "test2", etc. It's also the machine's name and hostname
-  machine_type = "f1-micro"               // smallest (CPU &amp; RAM) available instance
-  zone         = "${var.region_zone}"     // yields "europe-west1-d" as setup previously. Places your VM in Europe
+# Creates a custom subnetwork, similar to VPC on AWS
+resource "google_compute_subnetwork" "grafino-sub" {
+  name          = "grafino-sub"
+  ip_cidr_range = "10.15.0.0/16"
+  network       = "${google_compute_network.grafino-network.self_link}"
+  region        = "${var.region}"
+}
+
+# Creates the instance
+resource "google_compute_instance" "grafino-instance" {
+  count        = 1
+  name         = "grafino-server-${count.index + 1}"
+  machine_type = "f1-micro"
+  zone         = "${var.region_zone}"
   tags         = ["grafino", "terraform"]
 
   disk {
-    image = "centos-7-v20170327" // the operative system (and Linux flavour) that your machine will run
+    image = "centos-7-v20170327"
   }
 
+  # The network or subnetwork in witch this instance will be running
   network_interface {
-    network = "default"
+    #network = "grafino-network"
+    subnetwork = "${google_compute_subnetwork.grafino-sub.name}"
 
     access_config {
       // Ephemeral IP - leaving this block empty will generate a new external IP and assign it to the machine
@@ -28,9 +41,10 @@ resource "google_compute_instance" "test" {
   }
 }
 
-resource "google_compute_firewall" "default" {
+# Security Grups
+resource "google_compute_firewall" "grafino-nsg" {
   name    = "grafino-test-firewall"
-  network = "default"
+  network = "grafino-network"
 
   allow {
     protocol = "tcp"
