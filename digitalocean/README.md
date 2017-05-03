@@ -1,15 +1,20 @@
-# Terraform to provision in digitalocean
+#### Terraform to provision in digitalocean
 
 - First test
 
-## Getting Started
+#### Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-### Prerequisites
+##### Prerequisites
 
 * Terraform installed
-* Token / Secret key from provider
+* DigitalOcean API Token
+
+
+#### Credentials
+
+
 
 ```
 terraform plan -var-file=../credentials.tfvars
