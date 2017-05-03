@@ -1,3 +1,5 @@
+EN
+
 #### Terraform to provision in cloud providers
 
 - v1.0 - Included terraform configuration examples for digitalocean.
@@ -15,3 +17,14 @@ This is for learning purposes only and for templating a simples cloud infrastruc
 
 * Terraform installed
 * Token / Secret key / Secret credentials from provider
+
+===========================//=====================================
+
+PT
+
+#### Exemplos de terraform para aprovisionamento nos fornecedores de cloud computing
+
+- v1.0 - Exemplos de configurações para a digitalocean.
+- v1.1 - Exemplos de configurações para a Google Cloud Platform.
+- v1.2 - Exemplos de configurações para a aws.
+- v1.3 - Exemplos de configurações para a azure rm.
