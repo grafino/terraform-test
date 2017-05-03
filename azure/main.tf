@@ -33,7 +33,7 @@ resource "azurerm_storage_account" "GrafinoStorageAccount" {
   }
 }
 
-# Create a virtual network in the web_servers resource group
+# Create a virtual network in the associated with our resource group
 resource "azurerm_virtual_network" "Grafino-network" {
   name                = "Grafino-network"
   address_space       = ["10.10.0.0/16"]
@@ -45,6 +45,7 @@ resource "azurerm_virtual_network" "Grafino-network" {
   }
 }
 
+# Create a subnet associated with our resource group and network
 resource "azurerm_subnet" "Grafino-subnet" {
   name                 = "Grafino-sub"
   resource_group_name  = "${azurerm_resource_group.grafino-rg.name}"
